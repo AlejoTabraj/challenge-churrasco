@@ -1,10 +1,12 @@
 import mongoose from 'mongoose'
 import config from './config/config'
 
+//Database url
 const { DB } = config
 const { NAME, HOST, USER, PASSWORD, AUTHSOURCE } = DB
 const DATABASE_URL = `mongodb://${USER}:${PASSWORD}@${HOST}/${NAME}?authSource=${AUTHSOURCE}` 
 
+//Database connection
 mongoose.connect(DATABASE_URL)
 
 const connection = mongoose.connection
