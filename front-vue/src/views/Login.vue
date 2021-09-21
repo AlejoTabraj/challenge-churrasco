@@ -27,10 +27,13 @@
         />
         <v-text-field
           v-model="password"
+          :type="show ? 'text' : 'password'"
           outlined
           label="Password"
           prepend-icon="mdi-lock"
           :rules="inputRules"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="show = !show"
         />
       </v-card-text>
       <v-card-actions>
@@ -52,7 +55,7 @@ export default {
   data: () => ({
     username: "",
     password: "",
-    checkbox: false,
+    show: true,
     inputRules: [(value) => value.length > 0 || "This field is required"],
     error: null,
   }),
