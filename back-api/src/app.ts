@@ -22,7 +22,7 @@ app.use(passport.initialize())
 passport.use(passportMiddleware)
 // routes 
 app.get('/', (req, res) => {
-    res.send('The API is in port' + app.get('port'))
+    res.send('The API is running in port ' + app.get('port'))
 })
 
 app.use(loginRoutes)
