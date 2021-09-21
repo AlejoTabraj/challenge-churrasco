@@ -13,7 +13,6 @@ router.post('/addproduct', passport.authenticate('jwt', { session: false }), asy
     
     const { SKU, name, pictures, price, currency } = req.body
     const isIn = SKU && name && pictures && price && currency
-
     if(isIn){
        let newProduct = new Product(req.body)
        await newProduct.save()

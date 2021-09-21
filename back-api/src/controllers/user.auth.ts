@@ -23,7 +23,7 @@ export const logIn = async (req: Request, res: Response): Promise<Response>  => 
         return res.status(200).json({token: createToken(user)})    
     }
 
-    return res.status(400).send('Username/Email or pasword are incorrect')
+    return res.status(400).json({msg: 'Username/Email or pasword are incorrect'})
 }
 
 export const logOut = (req: Request, res: Response) => {

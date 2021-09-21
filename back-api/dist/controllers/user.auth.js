@@ -31,7 +31,7 @@ const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     else if (user.role === 'admin' && user.active === true && (yield user.comparePassword(password))) {
         return res.status(200).json({ token: createToken(user) });
     }
-    return res.status(400).send('Username/Email or pasword are incorrect');
+    return res.status(400).json({ msg: 'Username/Email or pasword are incorrect' });
 });
 exports.logIn = logIn;
 const logOut = (req, res) => {
