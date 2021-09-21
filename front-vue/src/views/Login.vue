@@ -13,32 +13,33 @@
     </v-container>
 
     <v-card-title class="justify-center">Login</v-card-title>
-    <v-card-text>
-      <v-text-field
-        required
-        v-model="username"
-        outlined
-        label="email"
-        prepend-icon="mdi-account-circle"
-      />
-      <v-text-field
-        v-model="password"
-        outlined
-        label="password"
-        prepend-icon="mdi-lock"
-      />
-    </v-card-text>
-    <v-card-actions>
-      <v-checkbox
-        v-model="checkbox"
-        :label="`Remember me`"
-        class="mr-3"
-      ></v-checkbox>
-      <v-spacer></v-spacer>
-      <v-btn @click="handleLogin" class="deep-purple accent-4" dark
-        >Log in</v-btn
-      >
-    </v-card-actions>
+    <v-alert v-if="error" type="error"> {{ error }} </v-alert>
+
+    <v-form ref="login">
+      <v-card-text>
+        <v-text-field
+          required
+          v-model="username"
+          outlined
+          label="Email"
+          prepend-icon="mdi-account-circle"
+          :rules="inputRules"
+        />
+        <v-text-field
+          v-model="password"
+          outlined
+          label="Password"
+          prepend-icon="mdi-lock"
+          :rules="inputRules"
+        />
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="handleLogin" class="deep-purple accent-4" dark
+          >Log in</v-btn
+        >
+      </v-card-actions>
+    </v-form>
   </v-card>
 </template>
 
@@ -52,16 +53,24 @@ export default {
     username: "",
     password: "",
     checkbox: false,
+    inputRules: [(value) => value.length > 0 || "This field is required"],
+    error: null,
   }),
   methods: {
     async handleLogin() {
-      const response = await axios.post("login", {
-        username: this.username,
-        password: this.password,
-      });
-      if (response.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        this.$router.push("/products");
+      if (!this.$refs.login.validate()) return;
+      try {
+        const response = await axios.post("login", {
+          username: this.username,
+          password: this.password,
+        });
+        if (response.status === 200) {
+          localStorage.setItem("token", response.data.token);
+          this.$router.push("/products");
+        }
+      } catch (error) {
+        console.error(error);
+        this.error = "Email/Username or password incorrect"
       }
     },
   },
